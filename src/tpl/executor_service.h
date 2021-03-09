@@ -109,7 +109,7 @@ public:
    * \details will block upon full queue
    */
   template<typename Func, typename... Args>
-  inline auto submit(Func &&func, Args... args) -> std::future<decltype(func(std::forward<Args>(args)...))> {
+  inline auto submit(Func &&func, Args&& ... args) -> std::future<decltype(func(std::forward<Args>(args)...))> {
 	if (!executing) throw;
 	std::unique_lock<std::mutex> lock(mutex);
 	if (tasks.size() >= max_pending_tasks) {
@@ -183,6 +183,9 @@ public:
 	}
   }
 
+  /**
+   * \brief resume executing
+   */
   inline void resume() {
 	if (executing) return;
 	join_all();
