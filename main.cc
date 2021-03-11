@@ -36,7 +36,7 @@ int main() {
   std::for_each(futures.begin(), futures.end(), [](std::future<void> &future) { future.get(); });
 
   // stop after 1 second
-  service.schedule_for(std::chrono::seconds(1));
+  service.execute_for(std::chrono::seconds(1));
 
   // resume working
   service.resume();
@@ -58,5 +58,5 @@ int main() {
   std::for_each(futures2.begin(), futures2.end(), [](std::future<int> &future) { std::cout << future.get() << std::endl; });
 
   // stop after 1 second
-  service.schedule_until(std::chrono::system_clock::now() + std::chrono::seconds(1));
+  service.execute_until(std::chrono::system_clock::now() + std::chrono::seconds(1));
 }

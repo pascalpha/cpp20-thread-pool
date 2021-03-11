@@ -148,7 +148,7 @@ public:
    * \param duration
    */
   template<typename Rep, typename Period>
-  inline void schedule_for(std::chrono::duration<Rep, Period> duration) {
+  inline void execute_for(std::chrono::duration<Rep, Period> duration) {
 	std::this_thread::sleep_for(duration);
 	stop();
   }
@@ -160,7 +160,7 @@ public:
    * \param tp
    */
   template<typename Clock, typename Duration>
-  inline void schedule_until(std::chrono::time_point<Clock, Duration> tp) {
+  inline void execute_until(std::chrono::time_point<Clock, Duration> tp) {
 	std::this_thread::sleep_until(tp);
 	stop();
   }
