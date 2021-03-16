@@ -13,7 +13,7 @@ int main() {
   using namespace tpl;
 
   security s1("600030.sh", instrument_t::stock);
-  security s2("600030.sse");
+  security s2("600030.sse", instrument_t::option);
   std::cout
 	  << (s1 == s2) << std::endl
 	  << stringify(s1) << std::endl

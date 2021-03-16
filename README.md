@@ -6,3 +6,6 @@ Implementations abound and yet many were devised without C++ 20 in mind. Since t
 
 1. Header-only
 2. No dependencies other than the STL
+
+## Printable Enum
+A macro based enum definition mechanism that automatically generates ```stringify()``` methods and output operator overloads

@@ -6,6 +6,7 @@
 #define TPL_SRC_COMM_ENUM_BEAUTIFIER_H
 
 #include <string_view>
+#include <type_traits>
 
 #define FIRST(a, ...) a
 #define SECOND(a, b, ...) b
@@ -21,7 +22,6 @@
 
 #define DEFER1(m) m EMPTY()
 #define DEFER2(m) m EMPTY EMPTY()()
-
 
 #define IS_PROBE(...) SECOND(__VA_ARGS__, 0)
 #define PROBE() ~, 1
@@ -46,7 +46,7 @@
 #define _END_OF_ARGUMENTS_() 0
 
 #define MAP(m, first, ...)           \
-  m (first)                             \
+  m (first)                          \
   IF_ELSE(HAS_ARGS(__VA_ARGS__))(    \
     DEFER2(_MAP)()(m, __VA_ARGS__)   \
   )(                                 \
@@ -54,12 +54,17 @@
   )
 #define _MAP() MAP
 
-#define STRINGIFY(x) case std::remove_cvref_t<decltype(v)>::x: return #x;
+#define VALUE_ARG v
+#define STRINGIFY(x) case std::remove_cvref_t<decltype(VALUE_ARG)>::x: return #x;
 #define ELEMENT(x) x,
-#define ENUM(name, ...)\
-EVAL(enum class name{MAP(ELEMENT, __VA_ARGS__)});\
-EVAL(std::string_view stringify(const name &v) { switch (v) { MAP(STRINGIFY, __VA_ARGS__) }})\
-template<typename OS> OS &operator<<(OS &os, const name &v) { return os << stringify(v); }\
-std::string_view stringify(const name &v)
+#define ENUM(name, ...)                                                                                                \
+    /*define enum class*/                                                                                              \
+    EVAL(enum class name{MAP(ELEMENT, __VA_ARGS__)});                                                                  \
+    /*define stringify method*/                                                                                        \
+    EVAL(std::string_view stringify(name const &VALUE_ARG) { switch (VALUE_ARG) { MAP(STRINGIFY, __VA_ARGS__) }})      \
+    /*define output operator*/                                                                                         \
+    template<typename OS> OS &operator<<(OS &os, name const &v) { return os << stringify(v); }                         \
+    /*redeclare stringify method to force colon behind*/                                                               \
+    std::string_view stringify(name const &v)
 
 #endif //TPL_SRC_COMM_ENUM_BEAUTIFIER_H

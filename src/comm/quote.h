@@ -8,11 +8,7 @@
 #include "security.h"
 
 namespace tpl {
-class quote {
 
-public:
-
-};
 } // namespace tpl
 
 #endif //TPL_SRC_COMM_QUOTE_H

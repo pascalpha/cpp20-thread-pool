@@ -8,7 +8,7 @@
 #include "enum_beautifier.h"
 
 namespace tpl {
-ENUM(instrument_t, stock, future, option, fund, convertible_bond);
+ENUM(instrument_t, stock, future, option, fund, convertible_bond, etf);
 } // namespace tpl
 
 #endif //TPL_SRC_COMM_INSTRUMENT_H
